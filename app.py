@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from external_api import fetch_product_by_barcode, fetch_products_by_name
+from external_api import fetch_product_by_barcode, fetch_product_by_name
 
 app = Flask(__name__)
 
@@ -122,7 +122,7 @@ def search_external():
     if not name:
         return jsonify({"error": "Name query parameter is required"}), 400
 
-    results = fetch_products_by_name(name)
+    results = fetch_product_by_name(name)
     if results is None:
         return jsonify({"error": "No results found"}), 404
 
