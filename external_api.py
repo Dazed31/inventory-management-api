@@ -27,7 +27,7 @@ def fetch_product_by_barcode(barcode):
     return data.get("product", {})
 
 
-def fetch_products_by_name(name):
+def fetch_product_by_name(name):
 
     url = f"{BASE_URL}/cgi/search.pl"
     headers = {
