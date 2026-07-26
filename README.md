@@ -2,9 +2,9 @@
 
 ## A Bit of Backstory
 
-When I first got this summative lab, I honestly didn't know where to start. It felt like a lot all at once — building a full CRUD API, hooking it up to an external API, building a CLI on top of it, and writing tests for all of it. I asked a bunch of people for help trying to piece together a plan, and I also reached out to my Technical Mentor (TM) for guidance. I ended up getting sidetracked and never actually followed up with him, which in hindsight is something I want to be better about next time — following through on the help that's offered instead of trying to figure everything out solo after the fact.
+When I first got this summative lab, I honestly didn't know where to start. It felt like a lot all at once, building a full CRUD API, hooking it up to an external API, building a CLI on top of it, and writing tests for all of it. I asked a bunch of people for help trying to piece together a plan, and I also reached out to my Technical Mentor (TM) for guidance. I ended up getting sidetracked and never actually followed up with him, which in hindsight is something I want to be better about next time, following through on the help that's offered instead of trying to figure everything out solo after the fact.
 
-Eventually I worked through it step by step: getting the Flask routes working first, then the external API integration, then the CLI, then the tests. It wasn't a straight line — there were a fair number of errors and moments of "why isn't this working" along the way (documented below), but I got through it.
+Eventually I worked through it step by step: getting the Flask routes working first, then the external API integration, then the CLI, then the tests. It wasn't a straight line, there were a fair number of errors and moments of "why isn't this working" along the way (documented below), but I got through it.
 
 ## Project Overview
 
@@ -277,14 +277,15 @@ pytest -v
 
 ## Challenges Along the Way
 
-Building this wasn't smooth from start to finish — a few things tripped me up that are worth noting (partly for my own future reference, partly in case anyone else runs into the same thing):
+Building this wasn't smooth from start to finish, a few things tripped me up that are worth noting (partly for my own future reference, partly in case anyone else runs into the same thing):
 
-- **Git branch confusion**: I created a `feature-external-api` branch, but a later commit accidentally landed on `master` instead because I wasn't actually on the feature branch when I ran the commands. This caused a `src refspec ... does not match any` error when trying to push to a branch that, from my local repo's perspective, didn't have that commit on it. I ended up simplifying my workflow to commit and push directly to `master` to avoid the confusion.
+- **Git branch confusion**: I created a `feature-external-api` branch, but a later commit accidentally landed on `master` instead because I wasn't actually on the feature branch when I ran the commands. This caused a `src refspec ... does not match any` error when trying to push to a branch that, from my local repo's perspective, didn't have that commit on it.
+- **Juggling multiple feature branches got confusing fast**: Trying to keep a separate branch per feature (`feature-external-api`, `feature-flask-crud`, `feature-cli`, `feature-tests`) and constantly switching between them with `git checkout` led to commits landing on the wrong branch, mismatched pushes, and general confusion about which branch had which code. Rather than keep fighting that workflow mid-lab, I made the call to simplify and just work directly on `master` — one branch, one clear history, commit by commit. It's a trade-off (less practice with a full branch/PR workflow), but it let me actually focus on getting the features working instead of debugging git itself.
 - **Untracked branch pushes**: The first time pushing a new branch, `git push` alone failed with "no upstream branch" — this needed `git push --set-upstream origin <branch-name>` instead.
 - **Function name mismatch**: My `external_api.py` originally defined `fetch_products_by_name` (plural), but `app.py` and the tests were written expecting `fetch_product_by_name` (singular). This caused a cascade of `ImportError` and `NameError` failures across both `pytest` collection and the actual route logic, until every reference to the function name was made consistent.
 - **Understanding pytest test discovery**: Early on I ran `pytest app.py` instead of pointing it at the actual test file, which tried to import Flask directly as a test module. Learning the difference between "the file with the code" and "the file with the tests" (and that pytest needs the *test* file) cleared this up.
 
-Working through these errors — reading the tracebacks instead of just re-pasting code — ended up being one of the more useful parts of the lab, even though it was frustrating in the moment.
+Working through these errors, reading the tracebacks instead of just re-pasting code — ended up being one of the more useful parts of the lab, even though it was frustrating in the moment.
 
 ## Future Improvements
 
